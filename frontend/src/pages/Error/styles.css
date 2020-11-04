@@ -1,0 +1,30 @@
+.page-error {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img404{
+    margin-top: 2rem;
+    width: 560px;
+    height: 300px;
+    margin-bottom: 2rem;
+}
+
+.page-error .title {
+    color: #e8211a;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.page-error .title p {
+    color: #000;
+    line-height: 3rem;
+    font-size: 18px;
+}
+
+.page-error .title a {
+    margin-top: 1rem;
+}

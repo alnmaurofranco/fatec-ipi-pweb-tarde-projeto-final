@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/app.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./src/app.js",
+    "migrations": "npx sequelize-cli migration:generate --name",
+    "migrate": "npx sequelize-cli db:migrate",
+    "refresh": "npx sequelize-cli db:migrate:undo:all",
+    "delete": "npx sequelize-cli db:migrate:undo --name",
+    "reset": "npm-run-all refresh migrate dev",
+    "build": "sucrase ./src -d ./dist --transforms imports"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.14",
+    "sequelize": "^6.3.4",
+    "slugify": "^1.4.5",
+    "volleyball": "^1.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "sucrase": "^3.15.0"
+  }
+}

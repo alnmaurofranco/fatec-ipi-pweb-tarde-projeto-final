@@ -1,0 +1,13 @@
+.page-loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.page-loading .space {
+    margin-top: 15.5rem;
+}
+.page-loading .space h1 {
+    margin-bottom: 1.5rem;
+}

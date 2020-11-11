@@ -197,3 +197,27 @@ export const getProduct = async (req, res, next) => {
     });
   }
 };
+
+export const getFindByIdProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findOne({
+      attributes: ['id', 'cod_product', 'title', 'price', 'unit', 'image_url'],
+      where: { id }
+    });
+
+    if (!product)
+      return res.status(400).json({
+        status: "failed",
+        message: `URL ${id} do produto não existe ou está mal informado!`,
+      });
+
+    return res.status(200).json({ status: "success", data: product });
+  } catch (error) {
+    return res.status(404).json({
+      status: "failed",
+      message: error.message,
+    });
+  }
+}

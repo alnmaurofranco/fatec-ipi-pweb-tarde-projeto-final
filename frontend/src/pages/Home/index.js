@@ -12,31 +12,18 @@ import ItemCategories from "../../components/ItemCategories";
 import Loading from "../../components/Loading";
 import DataError from "../Error/DataError";
 
+import { useDispatch, useSelector } from 'react-redux';
+import { GetProducts } from "../../store/Products/Products.actions";
 
 function Home() {
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [dataError, setDataError] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, dataError, products } = useSelector(state => state.products)
   const [newsletter, setNewsletter] = useState('');
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await api.get("/product/all");
-        setTimeout(() => {
-          setDataError(false);
-          setProducts(response.data.data);
-          setLoading(false);
-        }, 1000);
-      } catch (error) {
-        if (error.config.data === undefined) {
-          setLoading(false);
-          setDataError(true);
-        }
-      }
-    })();
+    dispatch(GetProducts());
 
-  }, []);
+  }, [dispatch]);
 
   async function handleNewsletter(e) {
     e.preventDefault();

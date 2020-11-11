@@ -14,6 +14,7 @@ function ItemProductDetail(props) {
         console.log(error);
       }
     })();
+    // eslint-disable-next-line
   }, [props.category[0]]);
 
   return (

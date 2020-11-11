@@ -25,6 +25,7 @@ import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import api from "../../services/api";
 
 import { Context } from "../../Context/AuthContext";
+import { useSelector } from 'react-redux';
 
 function MenuLink({ label, to, activeOnlyWhenExact }) {
   let match = useRouteMatch({
@@ -49,6 +50,8 @@ const Header = (props) => {
   const [users, setUsers] = useState({});
   const [isUser, setIsUser] = useState(false);
   const { handleLogout } = useContext(Context);
+
+  const { cartItems } = useSelector(state => state.cart);
 
   useEffect(() => {
     (async () => {
@@ -95,7 +98,9 @@ const Header = (props) => {
                 <NavItem>
                   <Link to="/cart" className="btn btn-transparent-cart btn-mt">
                     <FaShoppingBag size="2em" />
-                    <span className="badge badge-info">0</span>
+                    {cartItems.length > 0 && (
+                      <span className="badge badge-info">{cartItems.length}</span>
+                    )}
                   </Link>
                 </NavItem>
 

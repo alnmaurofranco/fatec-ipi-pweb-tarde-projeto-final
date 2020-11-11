@@ -25,9 +25,25 @@ export const create = async (req, res) => {
 
     return res.status(201).json({ status: "success", data: users });
   } catch (error) {
-    return res.status(400).json({ status: "failed", erros: error.message });
+    return res.status(404).json({ status: "failed", erros: error.message });
   }
 };
+
+export const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+
+    const userUpdated = await User.up(body, {
+      returning: true,
+      where: { id }
+    });
+
+    return res.status(200).json({ userUpdated });
+  } catch (error) {
+    return res.status(404).json({ status: "failed", erros: error.message });
+  }
+}
 
 export const deleteUser = async (req, res) => {
   try {

@@ -40,6 +40,9 @@ input:focus {
 .pb-70 {
   padding-bottom: 70px;
 }
+.pb-6 {
+  padding-bottom: 3.8rem;
+}
 
 .title__section {
   color: #e8211a;

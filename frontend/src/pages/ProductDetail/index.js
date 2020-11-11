@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from "react";
-import api from "../../services/api";
 import swal from "sweetalert";
+import api from "../../services/api";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ItemProductDetail from '../../components/ItemProductDetail'
 
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import './styles.css';
-import ItemProductDetail from "../../components/ItemProductDetail";
+
+import { useDispatch, useSelector } from 'react-redux';
+import { detailsProduct } from "../../store/Product/Product.actions";
 
 function ProductDetail() {
   const params = useParams();
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const { product } = useSelector(state => state.product)
   const [cat, setCat] = useState([]);
-  const [product, setProduct] = useState({});
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     (async () => {
       try {
         const result = await api.get(`/product/${params.slug}`);
-        setProduct(result.data.data);
         setCat(result.data.data.categorys);
       } catch (e) {
         if (e.response) {
           swal("Ocorreu um erro!", e.response.data.message, "error");
-          // eslint-disable-next-line
-          history.push('/');
         }
       }
     })();
+    dispatch(detailsProduct(params.slug))
+  }, [dispatch, params.slug]);
 
-
-  }, [params.slug]);
+  // const handleAddCart = () => {
+  //   history.push(`/cart/${product.id}?qty=${qty}`)
+  // }
 
   return (
     <div>
@@ -44,7 +48,11 @@ function ProductDetail() {
           <div className="row">
             <div className="col-md-6">
               <div className="product-slider">
-                <img className="imagem-produto" src={product.image_url} alt={product.title} />
+                <img
+                  className="imagem-produto"
+                  src={product.image_url}
+                  alt={product.title}
+                />
               </div>
             </div>
             <div className="col-md-6">
@@ -61,16 +69,31 @@ function ProductDetail() {
                   {String(product.description).substr(0, 330)}
                 </p>
                 <div className="product-count">
-                  <label htmlFor="size">Quantidade</label>
-                  <form action="#">
-                    <select name="" id="">
-                      <option value="">1</option>
-                      <option value="">2</option>
-                      <option value="">3</option>
-                      <option value="">{product.unit}</option>
-                    </select>
-                  </form>
-                  <Link to={`/cart/${product.id}`} className="btn-round">
+                  <label htmlFor="size">Quantidade</label><br />
+                  {product.unit > 0 ? (
+                    <span className="text-success"><strong>Disponivel em estoque</strong></span>
+                  )
+                    :
+                    (
+                      <span className="text-danger"><strong>No momento está indisponivel em estoque</strong></span>
+                    )}
+                  {product.unit > 0 && (
+                    <>
+                      <form action="" className="mt-2">
+                        <select value={qty} onChange={e => setQty(e.target.value)}>
+                          {
+                            [...Array(product.unit).keys()].map(x => (
+                              <option value={x + 1} key={x + 1}>
+                                { x + 1}
+                              </option>
+                            ))
+                          }
+                        </select>
+                      </form>
+                    </>
+                  )}
+
+                  <Link to={`/cart/${product.id}?qty=${qty}`} className="btn-round">
                     Adicionar ao carrinho
                   </Link>
                 </div>

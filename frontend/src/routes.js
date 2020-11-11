@@ -46,7 +46,7 @@ function Routes() {
       <CustomRoute path="/product/:slug" component={ProductDetail} />
       <CustomRoute path="/search" component={ProductSearch} />
       <CustomRoute path="/departamentos/:name" component={Departamento} />
-      <CustomRoute path="/cart" component={Cart} />
+      <CustomRoute path="/cart/:id?" component={Cart} />
       <CustomRoute path="/about" component={About} />
       <CustomRoute isLoggedIn path="/login" component={Login} />
       <CustomRoute isLoggedIn path="/register" component={Register} />

@@ -6,6 +6,7 @@ const {
   allUsers,
   create,
   deleteUser,
+  update
 } = require("../controllers/UserController");
 const userRouter = Router();
 
@@ -16,6 +17,7 @@ userRouter.get("/", allUsers);
 userRouter.post("/create", create);
 //VISUALIZAR OS USUARIOS A PARTIR DO ID
 //ALTERAR USUARIO
+userRouter.put("/update/:id", update);
 //EXCLUIR USUARIO
 userRouter.delete("/delete/:id", deleteUser);
 

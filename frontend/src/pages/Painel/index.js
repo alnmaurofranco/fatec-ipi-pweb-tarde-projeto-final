@@ -7,11 +7,11 @@ import { Context } from '../../Context/AuthContext';
 import api from '../../services/api';
 
 import imgProfile from '../../assets/img/profile.svg';
-import avatarProfile from '../../assets/img/avataaars.svg';
 
 function Painel() {
     const { handleLogout } = useContext(Context);
     const [users, setUsers] = useState({});
+
     useEffect(() => {
         (async () => {
             const response = await api.get('/account');
@@ -33,7 +33,7 @@ function Painel() {
                             <div className="card content__login">
                                 <div className="card-body">
                                     <div className="text-center mb-4">
-                                        <img src={avatarProfile} alt="x" className="avatar__profile" />
+                                        <img src={users.avatar} alt="x" className="avatar__profile" />
                                     </div>
                                     <p className="title__profile mb-4">
                                         Olá, {users.first_name}. Bem-vindo ao Dashboard

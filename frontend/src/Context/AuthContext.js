@@ -22,11 +22,6 @@ function AuthProvider({ children }) {
     }, [])
 
     async function handleLogin(email, password) {
-        // const { data: { token } } = await api.post('/auth/login', { email, password });
-        // localStorage.setItem('token', JSON.stringify(token));
-        // api.defaults.headers.Authorization = `Bearer ${token}`;
-        // setAuthenticated(true);
-        // history.push('/dashboard');
         try {
             const response = await api.post('/auth/login', { email, password });
             console.log(response)

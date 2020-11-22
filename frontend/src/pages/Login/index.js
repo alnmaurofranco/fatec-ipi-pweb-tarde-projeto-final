@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 
 import Header from "../../components/Header";
@@ -8,20 +8,13 @@ import loginImg from "../../assets/img/acc.svg";
 import { Link } from "react-router-dom";
 
 //Context
-//import { Context } from '../../Context/AuthContext';
-import { useDispatch } from 'react-redux';
-import { LoginUser } from "../../store/User/User.actions";
+import { Context } from '../../Context/AuthContext';
 
 function Login() {
-  //const { handleLogin } = useContext(Context);
-  const dispatch = useDispatch();
+  const { handleLogin } = useContext(Context);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(LoginUser(email, password));
-  }
 
   return (
     <div>
@@ -40,7 +33,7 @@ function Login() {
                       <FaUserCircle /> Login do Cliente
                     </h2>
                   </div>
-                  <form onSubmit={handleLogin}>
+                  <form>
                     <div className="form-group">
                       <label htmlFor="email">E-mail</label>
                       <input
@@ -73,8 +66,8 @@ function Login() {
 
                     <button
                       className="btn-lg btn-block btn-round"
-                      type="submit"
-                    // onClick={() => { handleLogin(email, password) }}
+                      type="button"
+                      onClick={() => { handleLogin(email, password) }}
                     >
                       Entrar
                     </button>

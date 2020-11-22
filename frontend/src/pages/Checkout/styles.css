@@ -1,0 +1,25 @@
+.page-checkout {
+    margin-top: 10rem;
+}
+
+.page-checkout-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.img__container {
+    width: 65%;
+    height: 53vh;
+    margin-bottom: 4rem;
+    margin-top: 6rem;
+}
+
+.img__checkout {
+    width: 100%;
+    height: 50vh;
+    margin-bottom: 3rem;
+    margin-left: 3rem;
+    margin-top: 6rem;
+}

@@ -16,6 +16,9 @@ import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
 import Departamento from "./pages/Departamento";
 import Loading from "./components/Loading";
+import { Checkout } from "./pages/Checkout";
+import { OrderSuccess } from "./pages/OrderSuccess";
+import { OrderNF } from "./pages/OrderNF";
 
 
 function CustomRoute({ isPrivate, isLoggedIn, ...rest }) {
@@ -48,6 +51,9 @@ function Routes() {
       <CustomRoute path="/departamentos/:name" component={Departamento} />
       <CustomRoute path="/cart/:id?" component={Cart} />
       <CustomRoute path="/about" component={About} />
+      <CustomRoute path="/checkout" component={Checkout} />
+      <CustomRoute path="/order-success" component={OrderSuccess} />
+      <CustomRoute path="/order-notafiscal" component={OrderNF} />
       <CustomRoute isLoggedIn path="/login" component={Login} />
       <CustomRoute isLoggedIn path="/register" component={Register} />
       <CustomRoute isLoggedIn path="/forgotpassword" component={ForgotPassword} />

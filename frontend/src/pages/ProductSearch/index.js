@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import ItemProduct from "../../components/ItemProduct";
 
 import imgSearcher from "../../assets/img/search.svg";
+import imgSearchEmpty from "../../assets/img/search_empty.svg";
 
 function ProductSearch() {
   const [searchProducts, setSearchProducts] = useState([]);
@@ -61,8 +62,15 @@ function ProductSearch() {
             <main className="content">
               <div className="container">
                 <div className="title__section">
-                  Os produtos abaixo foram o resultado da sua busca.
-          </div>
+                  {searchProducts.length === 0 ? (
+                    <div>
+                      <img src={imgSearchEmpty} className="search__img" alt="search" />
+                      Não foi possivel encontra essa busca.
+                    </div>
+                  ) : (
+                      <div>Os produtos abaixo foram o resultado da sua busca.</div>
+                    )}
+                </div>
                 <div className="row">
                   {searchProducts.map(
                     ({ id, title, price, slug, image_url, categorys }) => (

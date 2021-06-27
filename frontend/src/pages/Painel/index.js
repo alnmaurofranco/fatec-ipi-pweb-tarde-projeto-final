@@ -36,7 +36,7 @@ function Painel() {
                                         <img src={users.avatar} alt="x" className="avatar__profile" />
                                     </div>
                                     <p className="title__profile mb-4">
-                                        Olá, {users.first_name}. Bem-vindo ao Dashboard
+                                        Olá, {users.first_name}. Bem-vindo ao seu Painel!
                                     </p>
                                     <button className="btn-profile float-left" onClick={() => { }}><FaCog size="1.2rem" className="icon__profile" /> Meus Dados</button>
                                     <button className="btn-profile float-right" onClick={handleLogout}><FaPowerOff size="1.2rem" /></button>

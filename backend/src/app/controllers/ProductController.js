@@ -50,8 +50,8 @@ export const ratingProduct = async (req, res, next) => {
           attributes: ["id", "name"],
           through: { attributes: [] },
           where: {
-            name
-          }
+            name,
+          },
         },
       ],
       order: [["price", "ASC"]],
@@ -64,16 +64,14 @@ export const ratingProduct = async (req, res, next) => {
         .json({ status: "failed", message: "Não existe nenhum produto!" });
     }
 
-    return res
-      .status(200)
-      .json({ status: "success", data: products });
+    return res.status(200).json({ status: "success", data: products });
   } catch (error) {
     return res.status(404).json({
       status: "failed",
       error,
     });
   }
-}
+};
 
 export const searchProduct = async (req, res, next) => {
   try {
@@ -90,7 +88,7 @@ export const searchProduct = async (req, res, next) => {
           model: Category,
           as: "categorys",
           attributes: ["id", "name"],
-          through: { attributes: [] }
+          through: { attributes: [] },
         },
       ],
       where: {
@@ -119,7 +117,7 @@ export const createProduct = async (req, res, next) => {
       slug: slugify(req.body.title),
       image_url: req.body.image_url,
       unit: req.body.unit,
-      details: req.body.details
+      details: req.body.details,
     };
     const { categorys } = req.body;
 
@@ -150,7 +148,10 @@ export const updateProduct = async (req, res, next) => {
 
   try {
     const product = await Product.findOne({ where: { id } });
-    if (!product) return res.status(400).json({ status: 'failed', message: 'Product not found' });
+    if (!product)
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Product not found" });
 
     product.update(body);
 
@@ -165,7 +166,7 @@ export const updateProduct = async (req, res, next) => {
       error,
     });
   }
-}
+};
 
 export const getProduct = async (req, res, next) => {
   try {
@@ -180,7 +181,7 @@ export const getProduct = async (req, res, next) => {
           through: { attributes: [] },
         },
       ],
-      where: { slug }
+      where: { slug },
     });
 
     if (!product)
@@ -203,8 +204,8 @@ export const getFindByIdProduct = async (req, res, next) => {
     const { id } = req.params;
 
     const product = await Product.findOne({
-      attributes: ['id', 'cod_product', 'title', 'price', 'unit', 'image_url'],
-      where: { id }
+      attributes: ["id", "cod_product", "title", "price", "unit", "image_url"],
+      where: { id },
     });
 
     if (!product)
@@ -220,4 +221,4 @@ export const getFindByIdProduct = async (req, res, next) => {
       message: error.message,
     });
   }
-}
+};

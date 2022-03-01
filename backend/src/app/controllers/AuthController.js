@@ -2,8 +2,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../../config/auth");
 import { Op } from "sequelize";
-import sendByEmail from "../../utils/SendByEmail";
-import crypto from 'crypto';
+import sendByEmail from "../../utils/sendByEmail";
+import crypto from "crypto";
 
 const createTokenSendResponse = (user, res, next) => {
   const payload = {
@@ -32,7 +32,8 @@ export const signup = async (req, res, next) => {
     if (userEmailExists)
       return res.status(409).json({
         status: "failed",
-        message: "O endereço de email já está sendo utilizado por outra pessoa. Tente novamente com outro e-mail.",
+        message:
+          "O endereço de email já está sendo utilizado por outra pessoa. Tente novamente com outro e-mail.",
       });
 
     const data = {
@@ -96,15 +97,19 @@ export const login = async (req, res, next) => {
 export const changePassword = async (req, res, next) => {
   const { email } = req.body;
 
-  if (!email) return res.status(400).json({ message: 'Digite um e-mail valido.' });
+  if (!email)
+    return res.status(400).json({ message: "Digite um e-mail valido." });
 
   const emailExists = await User.findOne({
-    where: { email }
+    where: { email },
   });
-  if (!emailExists) return res.status(400).json({ message: 'Este e-mail não foi possivel encontrar.' });
+  if (!emailExists)
+    return res
+      .status(400)
+      .json({ message: "Este e-mail não foi possivel encontrar." });
 
   const resetToken = emailExists.createPasswordResetToken();
-  await emailExists.save({ validateBeforeSave: false })
+  await emailExists.save({ validateBeforeSave: false });
 
   try {
     const resetUrl = `${process.env.APP_SITE}/resetpassword/${resetToken}`;
@@ -114,10 +119,12 @@ export const changePassword = async (req, res, next) => {
 
     await sendByEmail({
       email: emailExists.email,
-      subject: 'Recuperação de senha (valido até 10 minutos)',
+      subject: "Recuperação de senha (valido até 10 minutos)",
       message: message,
     });
-    return res.status(200).json({ status: "success", message: 'E-mail enviado!' });
+    return res
+      .status(200)
+      .json({ status: "success", message: "E-mail enviado!" });
   } catch (e) {
     userMail.password_reset_token = undefined;
     userMail.password_reset_expires = undefined;
@@ -125,38 +132,45 @@ export const changePassword = async (req, res, next) => {
   }
 
   return res.status(200).json({ status: "success", emailExists });
-}
+};
 
 const updateResetToken = (token) => {
-  return crypto.createHash('sha256').update(token).digest('hex');
-}
+  return crypto.createHash("sha256").update(token).digest("hex");
+};
 
 export const resetPassword = async (req, res, next) => {
   const { token } = req.params;
 
   try {
     const hashedToken = updateResetToken(token);
-    if (!hashedToken) return res.status(400).json({ message: 'Não houve atualização no token.' });
+    if (!hashedToken)
+      return res
+        .status(400)
+        .json({ message: "Não houve atualização no token." });
 
     const user = await User.findOne({
       where: {
         password_reset_token: hashedToken,
         password_reset_expires: {
           [Op.gt]: Date.now(),
-        }
-      }
+        },
+      },
     });
 
-    if (!user) return res.status(400).json({ message: 'Token está invalido ou já expirou.' });
+    if (!user)
+      return res
+        .status(400)
+        .json({ message: "Token está invalido ou já expirou." });
 
     user.password = req.body.password;
     user.password_reset_token = null;
     user.password_reset_expires = null;
 
     await user.save();
-    return res.status(200).json({ message: 'success', data: user.password_changed_at });
-
+    return res
+      .status(200)
+      .json({ message: "success", data: user.password_changed_at });
   } catch (err) {
     return res.status(404).json({ message: err.message });
   }
-}
+};
